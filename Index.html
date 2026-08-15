@@ -1,1 +1,579 @@
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>▣ 迷雾档案 · 09 ARG</title>
+  <style>
+    /* 全局重置 & 09年氛围 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0a0a;
+      background-image: 
+        radial-gradient(circle at 20% 30%, #1a2a1a 0%, #0a0f0a 80%),
+        repeating-linear-gradient(45deg, rgba(30, 40, 30, 0.1) 0px, rgba(30, 40, 30, 0.1) 2px, transparent 2px, transparent 8px);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Courier New', 'Lucida Console', 'Monaco', monospace;
+      padding: 16px;
+      margin: 0;
+      /* 怀旧扫描线 (非常淡) */
+      position: relative;
+    }
+
+    /* 老式CRT扫描线效果 (轻微) */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.03) 0px, rgba(0,0,0,0.03) 2px, transparent 2px, transparent 6px);
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* 主容器 — 仿09年简陋风格 */
+    .arg-container {
+      max-width: 780px;
+      width: 100%;
+      background: #0b120b;
+      border: 4px solid #2c4a2c;
+      box-shadow: 
+        0 0 20px rgba(0, 255, 0, 0.2),
+        inset 0 0 40px rgba(0, 30, 0, 0.6);
+      padding: 24px 20px 28px;
+      position: relative;
+      transition: all 0.2s;
+      /* 旧式纸张纹理 */
+      background-image: 
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.08 0"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.15"/></svg>');
+      background-blend-mode: overlay;
+    }
+
+    /* 顶栏 — 类似09年论坛/个人站 */
+    .terminal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 2px solid #2e5a2e;
+      padding-bottom: 10px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      gap: 8px 4px;
+    }
+
+    .site-title {
+      color: #8bc34a;
+      font-size: 1.7rem;
+      font-weight: normal;
+      letter-spacing: 4px;
+      text-shadow: 0 0 6px #3f7a3f;
+      font-family: 'Courier New', monospace;
+      background: #0f1a0f;
+      padding: 0 8px;
+      border: 1px solid #2f5f2f;
+      box-shadow: inset 0 0 8px #0a1a0a;
+      line-height: 1.3;
+    }
+
+    .site-title span {
+      color: #b3d9a0;
+      font-size: 1.0rem;
+      letter-spacing: 2px;
+    }
+
+    .crt-status {
+      color: #6f9e6f;
+      font-size: 0.8rem;
+      background: #0f1a0f;
+      padding: 4px 12px;
+      border: 1px solid #2f5f2f;
+      border-radius: 20px;
+      box-shadow: inset 0 0 6px #0a1a0a;
+      white-space: nowrap;
+    }
+
+    .crt-status i {
+      font-style: normal;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: #5f9f5f;
+      border-radius: 50%;
+      margin-right: 6px;
+      box-shadow: 0 0 12px #3f9f3f;
+      animation: pulse-dot 1.8s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0% { opacity: 0.4; box-shadow: 0 0 4px #3f9f3f; }
+      50% { opacity: 1; box-shadow: 0 0 16px #7fcf7f; }
+      100% { opacity: 0.4; box-shadow: 0 0 4px #3f9f3f; }
+    }
+
+    /* 内容区 — 古老的神秘感 */
+    .arg-content {
+      color: #c3d9b0;
+      font-size: 1.0rem;
+      line-height: 1.6;
+      text-shadow: 0 0 2px #204020;
+    }
+
+    .arg-content p {
+      margin-bottom: 18px;
+      border-left: 3px solid #3d6b3d;
+      padding-left: 14px;
+      background: rgba(10, 25, 10, 0.3);
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }
+
+    .arg-content .highlight {
+      color: #b3ff9f;
+      background: #1a3a1a;
+      padding: 0 6px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    /* 神秘输入框 — 09年风格 */
+    .arg-input-area {
+      margin: 28px 0 18px;
+      background: #0f1a0f;
+      border: 2px solid #2f5f2f;
+      padding: 16px 14px;
+      box-shadow: inset 0 0 30px rgba(0, 20, 0, 0.7);
+    }
+
+    .arg-input-area label {
+      display: block;
+      color: #8fbf8f;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .input-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 8px;
+      align-items: center;
+    }
+
+    .input-group input {
+      flex: 2 1 180px;
+      background: #030803;
+      border: 2px solid #2a4a2a;
+      padding: 12px 14px;
+      color: #b3e6b3;
+      font-family: 'Courier New', monospace;
+      font-size: 1.0rem;
+      outline: none;
+      box-shadow: inset 0 0 15px #050f05;
+      transition: 0.15s;
+    }
+
+    .input-group input:focus {
+      border-color: #6fbf6f;
+      background: #081408;
+      box-shadow: 0 0 20px #1f4f1f, inset 0 0 15px #0a1f0a;
+    }
+
+    .input-group input::placeholder {
+      color: #3d6a3d;
+      font-style: italic;
+      font-size: 0.9rem;
+    }
+
+    .input-group button {
+      flex: 0 1 auto;
+      background: #1a3a1a;
+      border: 3px solid #3f7f3f;
+      color: #b3e6b3;
+      padding: 12px 24px;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      cursor: pointer;
+      box-shadow: 0 0 12px #1f4f1f;
+      transition: all 0.1s;
+      text-shadow: 0 0 6px #3f7f3f;
+      background-image: linear-gradient(to bottom, #1f3f1f, #0f2a0f);
+    }
+
+    .input-group button:hover {
+      background: #2a5a2a;
+      border-color: #6fbf6f;
+      box-shadow: 0 0 28px #3f8f3f;
+      transform: scale(0.98);
+    }
+
+    .input-group button:active {
+      background: #0f2a0f;
+      transform: scale(0.94);
+    }
+
+    /* 反馈区域 — 类似老式命令行输出 */
+    .output-box {
+      margin-top: 20px;
+      background: #0a120a;
+      border: 2px solid #1f3f1f;
+      padding: 14px 16px;
+      min-height: 80px;
+      color: #9fc99f;
+      font-size: 0.95rem;
+      box-shadow: inset 0 0 30px #030a03;
+      word-break: break-word;
+      transition: 0.2s;
+      border-left: 6px solid #3b6b3b;
+      font-family: 'Courier New', 'Lucida Console', monospace;
+    }
+
+    .output-box .line {
+      display: block;
+      border-bottom: 1px dotted #1f3f1f;
+      padding: 8px 0;
+    }
+
+    .output-box .line:last-child {
+      border-bottom: none;
+    }
+
+    .output-box .prompt-symbol {
+      color: #6f9f6f;
+      margin-right: 10px;
+    }
+
+    .output-box .error {
+      color: #cf8f7f;
+      text-shadow: 0 0 6px #5f2f2f;
+    }
+
+    .output-box .success {
+      color: #9fdf9f;
+      text-shadow: 0 0 8px #3f9f3f;
+    }
+
+    .output-box .secret {
+      color: #c7f0b0;
+      background: #142014;
+      padding: 2px 8px;
+      border: 1px dashed #6faf6f;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    /* 小彩蛋 — 09年流行元素 */
+    .signature {
+      margin-top: 24px;
+      border-top: 1px solid #1f3f1f;
+      padding-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      color: #4f7a4f;
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+    }
+
+    .signature a {
+      color: #6f9f6f;
+      text-decoration: none;
+      border-bottom: 1px dotted #2f5f2f;
+    }
+
+    .signature a:hover {
+      color: #bfefbf;
+      border-bottom: 1px solid #7fcf7f;
+    }
+
+    /* 移动端调整 */
+    @media (max-width: 600px) {
+      .arg-container {
+        padding: 16px 12px;
+      }
+      .site-title {
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+      }
+      .site-title span {
+        font-size: 0.8rem;
+      }
+      .crt-status {
+        font-size: 0.65rem;
+        padding: 2px 10px;
+      }
+      .arg-content {
+        font-size: 0.9rem;
+      }
+      .input-group input {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+        flex: 1 1 140px;
+      }
+      .input-group button {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+        flex: 1 0 auto;
+      }
+      .output-box {
+        font-size: 0.85rem;
+        padding: 10px 12px;
+        min-height: 60px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .site-title {
+        font-size: 1.2rem;
+      }
+      .input-group {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .input-group input {
+        width: 100%;
+        flex: unset;
+      }
+      .input-group button {
+        width: 100%;
+      }
+      .arg-content p {
+        padding-left: 8px;
+      }
+    }
+
+    /* 额外的09年装饰 */
+    .glitch-text {
+      display: inline-block;
+      transform: skewX(-2deg);
+      color: #a9d9a9;
+    }
+
+    /* 简易blink 古董感 */
+    .blink {
+      animation: blink-anime 1.2s step-end infinite;
+    }
+    @keyframes blink-anime {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* 隐藏的小彩蛋（纯装饰） */
+    .hidden-code {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="arg-container">
+    <!-- 顶栏 -->
+    <div class="terminal-header">
+      <div class="site-title">
+        ▣ <span>迷雾档案</span> .09
+      </div>
+      <div class="crt-status">
+        <i></i> 信号稳定 · 1999
+      </div>
+    </div>
+
+    <!-- 内容 -->
+    <div class="arg-content">
+      <p>
+        <span class="highlight">> 接入协议</span> 欢迎来到 <span class="glitch-text">[REDACTED]</span> 档案库。<br>
+        你正在追踪一条来自 <span class="highlight">2009.08.15</span> 的加密信号。<br>
+        输入正确的 <span class="highlight">激活码</span> 以解锁深层记录。
+      </p>
+      <p style="border-left-color: #5f8f5f; font-size: 0.9rem; color: #8fbf8f;">
+        <span style="color: #6faf6f;">◆ 提示：</span> 激活码是 <span style="background: #0f1f0f; padding: 0 8px;">4位数字</span>，与某个月份有关。
+      </p>
+    </div>
+
+    <!-- 输入区域 -->
+    <div class="arg-input-area">
+      <label for="argInput">⌨ 输入激活码</label>
+      <div class="input-group">
+        <input type="text" id="argInput" placeholder="例如：0815" maxlength="10" autocomplete="off">
+        <button id="submitBtn">⏎ 解密</button>
+      </div>
+    </div>
+
+    <!-- 输出 / 反馈 -->
+    <div class="output-box" id="outputBox">
+      <span class="line"><span class="prompt-symbol">></span> 等待输入指令...</span>
+    </div>
+
+    <!-- 09年签名 -->
+    <div class="signature">
+      <span>⚡ 基于 ARG 2.0 协议</span>
+      <span><a href="#" onclick="return false;">[ 关于 ]</a> · <a href="#" onclick="return false;">[ 档案 ]</a></span>
+      <span>© 2009 迷雾</span>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      "use strict";
+
+      // 核心元素
+      const inputField = document.getElementById('argInput');
+      const submitBtn = document.getElementById('submitBtn');
+      const outputBox = document.getElementById('outputBox');
+
+      // 预设的“正确”激活码 (09年风格: 0815 代表 8月15日)
+      const CORRECT_CODE = '0815';
+
+      // 一些有趣的反应消息池 (09年风味)
+      const errorMessages = [
+        '✗ 访问被拒绝 · 信号不匹配',
+        '✗ 激活码无效 · 请重试',
+        '✗ 未知错误 0x09F1',
+        '✗ 安全协议阻断 · 输入错误'
+      ];
+
+      const successMessages = [
+        '✓ 身份验证通过 · 解锁层级 3',
+        '✓ 欢迎进入 [档案库] · 信号同步',
+        '✓ 激活成功 · 载入 09 年记录'
+      ];
+
+      const hintMessages = [
+        '提示: 尝试 0815 (8月15日)',
+        '提示: 日期格式 MMDD',
+        '提示: 与夏季有关'
+      ];
+
+      // 随机取数组元素
+      function randomItem(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
+      // 更新输出框 (保持历史行)
+      function appendOutput(lineHtml, className = '') {
+        // 限制输出行数，避免过长 (保留最后15行)
+        const lines = outputBox.querySelectorAll('.line');
+        if (lines.length >= 18) {
+          // 移除最旧的两行
+          for (let i = 0; i < 2; i++) {
+            if (outputBox.firstChild) {
+              outputBox.removeChild(outputBox.firstChild);
+            }
+          }
+        }
+
+        const newLine = document.createElement('span');
+        newLine.className = 'line ' + className;
+        newLine.innerHTML = lineHtml;
+        outputBox.appendChild(newLine);
+        // 自动滚动到底部
+        outputBox.scrollTop = outputBox.scrollHeight;
+      }
+
+      // 清空输出 (保留一条欢迎)
+      function resetOutput() {
+        outputBox.innerHTML = '';
+        appendOutput('<span class="prompt-symbol">></span> 系统重置 · 请输入激活码', '');
+      }
+
+      // 处理输入
+      function handleSubmit() {
+        const rawValue = inputField.value.trim();
+        // 如果空白，显示提示
+        if (rawValue === '') {
+          const randomHint = randomItem(hintMessages);
+          appendOutput(`<span class="prompt-symbol">></span> ${randomHint}`, '');
+          inputField.value = ''; // 清空
+          inputField.focus();
+          return;
+        }
+
+        // 规范化：去除空格，转为大写？ 但我们是数字
+        const code = rawValue.replace(/\s/g, '');
+
+        // 检查长度 (至少4位，但可以输入更多)
+        if (code.length < 4) {
+          appendOutput(`<span class="prompt-symbol">></span> <span class="error">✗ 激活码太短 · 需要4位数字</span>`, 'error');
+          inputField.value = '';
+          inputField.focus();
+          return;
+        }
+
+        // 检查是否为数字 (允许输入带字母，但我们会提示)
+        if (!/^\d+$/.test(code)) {
+          appendOutput(`<span class="prompt-symbol">></span> <span class="error">✗ 仅允许数字 · 请重新输入</span>`, 'error');
+          inputField.value = '';
+          inputField.focus();
+          return;
+        }
+
+        // 截取前4位作为激活码 (其余忽略)
+        const enteredCode = code.slice(0, 4);
+
+        // 判断是否正确
+        if (enteredCode === CORRECT_CODE) {
+          // 成功！
+          const successMsg = randomItem(successMessages);
+          appendOutput(`<span class="prompt-symbol">></span> <span class="success">${successMsg}</span>`, 'success');
+          // 彩蛋: 显示隐藏的“档案”
+          appendOutput(`<span class="prompt-symbol">></span> <span class="secret">🔓 档案 #09-0815 · 已解锁</span>`, 'secret');
+          appendOutput(`<span class="prompt-symbol">></span> “The signal originates from 2009.08.15. 欢迎。”`, '');
+          // 增加神秘感
+          appendOutput(`<span class="prompt-symbol">></span> <span style="color: #8fbf8f;">▣ 你已进入迷雾核心</span>`, '');
+          // 清空输入
+          inputField.value = '';
+          inputField.focus();
+        } else {
+          // 错误
+          const errorMsg = randomItem(errorMessages);
+          appendOutput(`<span class="prompt-symbol">></span> <span class="error">${errorMsg}</span>`, 'error');
+          // 偶尔给个提示 (30%概率)
+          if (Math.random() < 0.3) {
+            const randomHint = randomItem(hintMessages);
+            appendOutput(`<span class="prompt-symbol">></span> ${randomHint}`, '');
+          }
+          inputField.value = '';
+          inputField.focus();
+        }
+      }
+
+      // 绑定事件
+      submitBtn.addEventListener('click', handleSubmit);
+
+      inputField.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleSubmit();
+        }
+      });
+
+      // 自动聚焦
+      inputField.focus();
+
+      // 初始一条信息 (让界面更生动)
+      setTimeout(() => {
+        appendOutput(`<span class="prompt-symbol">></span> 系统就绪 · 输入激活码解锁`, '');
+      }, 300);
+
+      // 额外小彩蛋: 双击输出框重置 (09年风格隐藏功能)
+      outputBox.addEventListener('dblclick', function() {
+        resetOutput();
+        appendOutput(`<span class="prompt-symbol">></span> <span style="color: #6f9f6f;">⌾ 档案已重置</span>`, '');
+        inputField.value = '';
+        inputField.focus();
+      });
+
+    })();
+  </script>
+</body>
+</html>
