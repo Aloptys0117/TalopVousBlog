@@ -1,0 +1,8 @@
+VIGENERE NOTE
+
+KEY: NOBODY
+CIPHERTEXT: GLF SWJFG CNTS QF L ZWQ
+
+The date 09/17/2001 is an index. It is not the password.
+
+Old keyboard note: shift each letter back two places before using the key.

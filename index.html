@@ -21,7 +21,7 @@
           <div class="marquee"><marquee scrollamount="5">ÃƒÂ¤Ã‚Â¸ÃƒÂ§Ã‚Â½ÃƒÂ‘ WELCOME STRANGER // don't look behind the page // ÃƒÂ¥Ã‚Â¤ÃƒÂœÃƒÂ¦Ã‚Â˜ÃƒÂŸ</marquee></div>
           <div class="box" id="about"><h2>ABOUT ME / ÃƒÂ§Ã‚Â½ÃƒÂ‘ÃƒÂ©Ã‚Â¡ÃƒÂµ</h2><p>Hi! I am A. I made this page on 09/17/2001. I am 17 years old.</p><p>Sometimes I hear the computer turn on at 23:41:07. It is probably nothing.</p><p class="tiny">Last updated: <b>09/17/2001</b> | ÃƒÂ¤Ã‚Â¸ÃƒÂ¦Ã‚Â—Ã‚Â¥: 07 13 37 01 09 17 20 01</p></div>
           <table><tr><td><div class="box"><h2>I LIKE:</h2><ul class="likes"><li>MUSIC</li><li>COMPUTERS</li><li>NIGHT</li><li>STARS</li><li>JAPANESE TXT: 星</li><li>HEX: 1337</li></ul></div></td><td><div class="midi" id="music"><b>♪ MIDI PLAYER ♪</b><br><span id="midi-status">[ stopped ] dreaming.mid</span><br><button onclick="toggleMidi()">PLAY / STOP</button></div><p class="ascii">     .-"""-.<br>    / .===. \<br>    \/ 6 6 \/<br>    ( \___/ )<br>___ooo__V__ooo___</p></td></tr></table>
-          <div class="box" id="pictures"><h2>MY ROOM!!!</h2><img class="room" id="room-image" src="assets/room_final_FINAL2.gif" alt="room_final_FINAL2.gif // 09 17 2001 // inspect the end" onclick="roomClue()"><p class="tiny">room_final_FINAL2.gif [56k warning] <a href="#" onclick="downloadRoom(event)">download</a> ÃƒÂ©Ã‚Â§ÃƒÂ¤Ã‚Â¦Ã‚Â¸</p></div>
+          <div class="box" id="pictures"><h2>MY ROOM!!!</h2><img class="room" id="room-image" src="assets/room_final_FINAL2.gif" alt="room_final_FINAL2.gif // 09 17 2001 // inspect the end" onclick="roomClue()"><p class="tiny">room_final_FINAL2.gif [56k warning] <a href="assets/room_final_FINAL2.gif" download>download</a> ÃƒÂ©Ã‚Â§ÃƒÂ¤Ã‚Â¦Ã‚Â¸</p></div>
           <div class="box" id="guestbook"><h2>SIGN MY GUESTBOOK!!!</h2><div class="guestbook"><input id="guest-name" placeholder="your name"><textarea id="guest-msg" placeholder="say hi..."></textarea> <button onclick="signGuestbook()">SIGN IT!</button><div id="guest-log">A: welcome to my page.<br>n0b0dy: ÃƒÂ§Ã‚Â½ÃƒÂ‘ÃƒÂ©Ã‚Â¡ÃƒÂµ</div></div></div>
           <div class="box" id="links"><h2>COOL LINKS / WEBRING</h2><a href="2001/">[ the old archive ]</a> <a href="2007/">[ broken mirror ]</a> <a href="2011/">[ new home? ]</a> <a href="2026/">[ ??? ]</a><br><br><span class="tiny">You are visitor number:</span> <span class="counter" id="counter">0001337</span><span id="counter-note"></span></div>
         </td></tr></table>
@@ -30,6 +30,28 @@
   </div>
   <span id="secret">source says: ROOM / 2007 / A / 23 / 4E 4F 54 20 54 48 45 20 48 4F 4D 45</span><div id="glitches"></div>
   <script src="js/main.js"></script>
-  <script>document.getElementById('counter').textContent=padded(state.visits);makeRoom();if(Math.random()>.72){const c=document.getElementById('counter'),n=document.getElementById('counter-note');c.textContent='0000000';n.textContent='  YOU WERE NOT SUPPOSED TO SEE THIS.';setTimeout(()=>{c.textContent='0001337';n.textContent='';},2600);}</script>
+  <script>initHomepage();makeRoom();if(Math.random()>.72){const c=document.getElementById('counter'),n=document.getElementById('counter-note');c.textContent='0000000';n.textContent='  YOU WERE NOT SUPPOSED TO SEE THIS.';setTimeout(()=>{c.textContent=padded(state.visits);n.textContent='';},2600);}</script>
+  <!-- ARG MASTER SOLUTION
+  01 Homepage: time contradiction / 09-17-2001 / inspect mojibake / 09172001 / A page is future-facing
+  02 Mojibake: ABC ratio / 09-17 23:41:07 / encoding / 09172001 / data changes across encodings
+  03 Time: hex string / CHECK THE SOURCE / hex / source / page expects investigation
+  04 Source: comment fragments + hidden DIV / ROOM_01 / ASCII + source / room01 / home is not original
+  05 Room: MARCH, A-17, 11:07 / MARCH_17 / object order / march17 / room stores dates
+  06 Hidden GIF: appended ZIP / readme, 2007, error log / file forensics / assets / files appear unauthored
+  07 2007: mixed timestamps / 2001 contaminates 2007 / chronology / timeline / A loses control
+  08 Timeline: frozen age / A is 23 / comparison / diary files / 2007 is the break
+  09 Diaries: sort dates, terminal letters / WAIT FOR / acrostic / guestbook / visitors matter
+  10 Counter: 1337 to 1340 / ARCHIVE link / state change / guestbook / counter is an ID
+  11 Guestbook: malformed IPs / SOURCE / decimal-hex-ASCII / music_final.mid.txt / voices are fabricated
+  12 MIDI: note intervals / SOURCE / Morse / source / audio is evidence
+  13 WAV: quiet warning / DON'T USE THE DATE / audio inspection / cipher.txt / date is only a key
+  14 Cipher: Vigenere NOBODY / THE FIRST PAGE IS A LIE / Vigenere / old / visible homepage is generated
+  15 Old page: NOBODY input / WHO TOLD YOU THAT NAME? / form response / archive / A is suspect
+  16 Identity: repeated A clues / A IS NOT A PERSON / extraction / archive / A means Archive
+  17 Archive: visitor records / ARCHIVE_WAS_WAITING / timeline ordering / final / archive retains visitors
+  18 Final: scroll IDs / CURRENT VISITOR 1340 / state / refresh / player was classified
+  19 Refresh: stored visit / HELLO 1341 / local storage / end / Archive remains active
+  20 End: local TODAY / WAITING FOR 1341 / browser date / none / website waits for next visitor
+  -->
 </body>
 </html>

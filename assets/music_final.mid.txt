@@ -1,0 +1,4 @@
+MIDI NOTE INTERVALS
+short short long long short / short long short short / short short short
+MORSE OUTPUT: SOURCE
+SOURCE NOTE: AUDIO_IS_NOT_MUSIC

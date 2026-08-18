@@ -1,4 +1,5 @@
-IF YOU FOUND THIS,
-YOU ARE ALREADY TOO LATE.
+This folder is intentionally untidy.
 
-DON'T OPEN 2007.TXT
+The expected order is not the directory order.
+The web page is not the first page.
+The counter is not a counter.
