@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>autosave.tmp</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="room-blackout">
+  <div class="old-page room-page">
+    <h1>AUTOSAVE / RECOVERED AFTER POWER LOSS</h1>
+    <p class="tiny">This file is not listed in Tria's room page. Author metadata is empty.</p>
+    <div id="room-terminal" class="room-terminal" aria-live="polite">
+      <p>connection lost</p>
+      <p>autosave waiting<span class="room-cursor"></span></p>
+    </div>
+    <p class="room-links"><a href="../room01/">return to the room page</a></p>
+  </div>
+  <!-- Tria's later diagnosis may explain the voice he heard. It does not explain who saved this file. -->
+  <script>
+    (() => {
+      const terminal = document.getElementById('room-terminal');
+      const lines = [
+        ['power did not return', 1200, ''],
+        ['there is no light outside the window', 1000, ''],
+        ['why', 820, ''],
+        ['why why', 680, ''],
+        ['why why why', 540, ''],
+        ['why why why why', 420, 'loud'],
+        ['why why why why why', 320, 'loud'],
+        ['why is he still here', 240, 'loud'],
+        ['why is he still here when the room is empty', 180, 'loud'],
+        ['why is he standing where the window should be', 130, 'loud'],
+        ['*Tria stopped typing*', 105, 'self-write'],
+        ['*this page continues writing by itself*', 90, 'self-write'],
+        ['WHY WHY WHY WHY WHY WHY WHY WHY WHY', 75, 'loud'],
+        ['your shoelace is untied', 60, 'self-write']
+      ];
+      terminal.innerHTML = '';
+      let index = 0;
+      const writeNext = () => {
+        if (index >= lines.length) {
+          const cursor = document.createElement('span');
+          cursor.className = 'room-cursor';
+          terminal.appendChild(cursor);
+          return;
+        }
+        const [text, delay, className] = lines[index++];
+        const line = document.createElement('p');
+        line.textContent = text;
+        if (className) line.className = className;
+        terminal.appendChild(line);
+        line.scrollIntoView({block: 'nearest'});
+        setTimeout(writeNext, delay);
+      };
+      setTimeout(writeNext, 900);
+    })();
+  </script>
+</body>
+</html>
