@@ -1,1 +1,65 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tria's Room</title><link rel="stylesheet" href="../css/style.css"></head><body><div class="old-page"><h1>MY ROOM!!!</h1><p class="tiny">uploaded from CAMERA\DCIM\0028.JPG</p><img class="room" src="../room.jpg" alt="Tria's desk, an old computer, and the corner of a window drawing"><table width="100%"><tr><th>THING</th><th>NOTE</th></tr><tr><td>monitor</td><td>one green vertical line / clock frozen at 00:19</td></tr><tr><td>power button</td><td>press three times</td></tr><tr><td>drawing</td><td><i>My Home's Window</i> / bars divide the sky</td></tr><tr><td>diskette</td><td>JUNE / 28</td></tr></table><p class="memo">Dad made the computer from discarded factory parts. Please do not tell him I put a picture of it online.</p><p class="tiny">There is a second image inside the downloaded copy. I did not make it.</p><p><a href="../assets/room_final_FINAL2.gif" download>download original GIF</a> | <a href="../june28/">open diskette directory</a></p></div><!-- ROT13: GUR QNGR ORYBATF GB GUR CNTR --></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tria's Room Introduction</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="room-blackout">
+  <div class="old-page room-page">
+    <h1>MY ROOM INTRODUCTION</h1>
+    <p class="tiny">Last edited 06/28/2002 00:19:36 / power status: OFF</p>
+    <img class="room" src="../room.jpg" alt="Tria's room during a power outage">
+    <h2>About My Room</h2>
+    <p class="power-note">The power has been going out a lot lately. Sometimes it comes back after a minute. Sometimes it stays off all night. That is why there is no light in this picture.</p>
+    <p>My desk is beside the window. The old computer is under it. Dad built the computer from discarded factory parts, and the monitor has one green line even when everything else is dark.</p>
+    <p>I keep the drawing from school near the desk. The security bars divide the sky into little squares. When the power goes out, I cannot see the drawing, but the monitor line is still there.</p>
+    <div id="room-terminal" class="room-terminal" aria-live="polite">
+      <p>connection lost</p>
+      <p>autosave waiting<span class="room-cursor"></span></p>
+    </div>
+    <p class="room-links"><a href="../assets/room_final_FINAL2.gif" download>download original room file</a> | <a href="../june28/">open diskette directory</a> | <a href="../">return to space</a></p>
+  </div>
+  <!-- ROT13: GUR QNGR ORYBATF GB GUR CNTR -->
+  <script>
+    (() => {
+      const terminal = document.getElementById('room-terminal');
+      const lines = [
+        ['power did not return', 1200, ''],
+        ['there is no light outside the window', 1000, ''],
+        ['why', 820, ''],
+        ['why why', 680, ''],
+        ['why why why', 540, ''],
+        ['why why why why', 420, 'loud'],
+        ['why why why why why', 320, 'loud'],
+        ['why is he still here', 240, 'loud'],
+        ['why is he still here when the room is empty', 180, 'loud'],
+        ['why is he standing where the window should be', 130, 'loud'],
+        ['*Tria stopped typing*', 105, 'self-write'],
+        ['*this page continues writing by itself*', 90, 'self-write'],
+        ['WHY WHY WHY WHY WHY WHY WHY WHY WHY', 75, 'loud'],
+        ['your shoelace is untied', 60, 'self-write']
+      ];
+      terminal.innerHTML = '';
+      let index = 0;
+      const writeNext = () => {
+        if (index >= lines.length) {
+          const cursor = document.createElement('span');
+          cursor.className = 'room-cursor';
+          terminal.appendChild(cursor);
+          return;
+        }
+        const [text, delay, className] = lines[index++];
+        const line = document.createElement('p');
+        line.textContent = text;
+        if (className) line.className = className;
+        terminal.appendChild(line);
+        line.scrollIntoView({block: 'nearest'});
+        setTimeout(writeNext, delay);
+      };
+      setTimeout(writeNext, 900);
+    })();
+  </script>
+</body>
+</html>
