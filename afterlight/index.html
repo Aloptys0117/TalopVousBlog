@@ -6,54 +6,176 @@
   <title>autosave.tmp</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="room-blackout">
-  <div class="old-page room-page">
-    <h1>AUTOSAVE / RECOVERED AFTER POWER LOSS</h1>
-    <p class="tiny">This file is not listed in Tria's room page. Author metadata is empty.</p>
-    <div id="room-terminal" class="room-terminal" aria-live="polite">
-      <p>connection lost</p>
-      <p>autosave waiting<span class="room-cursor"></span></p>
-    </div>
-    <p class="room-links"><a href="../room01/">return to the room page</a></p>
-  </div>
+<body class="afterlight-body">
+  <main id="afterlight" class="afterlight-screen">
+    <header class="afterlight-bar">
+      AUTOSAVE.TMP / AUTHOR: [NULL] / POWER: OFF / WRITE LOCK: FAILED
+      <span id="line-count" class="afterlight-count">000 / 000</span>
+    </header>
+    <div id="afterlight-log" class="afterlight-log" role="log" aria-live="off"></div>
+    <a class="afterlight-return" href="../room01/">[return to room]</a>
+  </main>
   <!-- Tria's later diagnosis may explain the voice he heard. It does not explain who saved this file. -->
   <script>
     (() => {
-      const terminal = document.getElementById('room-terminal');
-      const lines = [
-        ['power did not return', 1200, ''],
-        ['there is no light outside the window', 1000, ''],
-        ['why', 820, ''],
-        ['why why', 680, ''],
-        ['why why why', 540, ''],
-        ['why why why why', 420, 'loud'],
-        ['why why why why why', 320, 'loud'],
-        ['why is he still here', 240, 'loud'],
-        ['why is he still here when the room is empty', 180, 'loud'],
-        ['why is he standing where the window should be', 130, 'loud'],
-        ['*Tria stopped typing*', 105, 'self-write'],
-        ['*this page continues writing by itself*', 90, 'self-write'],
-        ['WHY WHY WHY WHY WHY WHY WHY WHY WHY', 75, 'loud'],
-        ['your shoelace is untied', 60, 'self-write']
+      const screen = document.getElementById('afterlight');
+      const log = document.getElementById('afterlight-log');
+      const count = document.getElementById('line-count');
+      const lines = [];
+      const add = (text, type = '') => lines.push({text, type});
+
+      [
+        '00:19:36 power interrupt detected',
+        '00:19:36 room illumination: 0',
+        '00:19:36 monitor illumination: 1',
+        '00:19:36 green vertical line remains active',
+        '00:19:37 autosave started',
+        '00:19:37 author field: TRIA',
+        '00:19:37 author field rejected',
+        '00:19:37 author field: [NULL]',
+        '00:19:38 keyboard input: none',
+        '00:19:38 write process: active',
+        '00:19:39 there is no light outside the window',
+        '00:19:40 there should be light across the yard'
+      ].forEach(text => add(text, 'system'));
+
+      for (let floor = 5; floor >= 1; floor--) {
+        add(`STAIRWELL / FLOOR ${floor} / LIGHT: OFF`, 'dim');
+        add(`STAIRWELL / FLOOR ${floor} / FOOTSTEPS: ${floor === 5 ? 2 : 1}`, 'warn');
+      }
+
+      [
+        'the desk is still against the wall',
+        'the chair is facing the monitor',
+        'the boy is not sitting in the chair',
+        'the screen says the boy is sitting in the chair',
+        'the window is closed',
+        'the window record says OPEN',
+        'the room is empty',
+        'the room record says OCCUPIED',
+        'occupant 01: TRIA',
+        'occupant 02: [NO NAME]',
+        'occupant 02 entered at 00:18:54',
+        'this page began at 00:19:36',
+        'he arrived forty-two seconds before there was a here'
+      ].forEach(text => add(text, text.includes('occupant 02') ? 'warn' : 'memory'));
+
+      for (let n = 1; n <= 24; n++) {
+        add(Array(Math.min(n, 12)).fill('why').join(' '), n > 10 ? 'loud' : 'warn');
+      }
+
+      [
+        'why does the green line stay when the power is gone',
+        'why does the counter move when nobody visits',
+        'why does the room remember a night he never uploaded',
+        'why did the cashier look behind him first',
+        'why did she see shoes when he wore slippers',
+        'why is the drawing already signed',
+        'why does the signature say 2001',
+        'why is 2011 written on new paper',
+        'why is he still here',
+        'why is he still here when the room is empty',
+        'why is he standing where the window should be',
+        'why does he have Tria\'s eyes',
+        'why does he use his father\'s voice',
+        'why does he know the sentence before anyone says it'
+      ].forEach(text => add(text, 'loud'));
+
+      const broken = [
+        'ÃƒÂ¤Ã‚Â¸ÃƒÂ§Ã‚Â½ÃƒÂ‘',
+        'ÃƒÂ¥Ã‚Â¤ÃƒÂœÃƒÂ¦Ã‚Â˜ÃƒÂŸ',
+        '縺薙ｓ縺ｫ縺｡縺ｯ',
+        '譁�蟄励′隕九▽縺九ｉ縺ｪ縺�',
+        '螟悶↓縺ｯ隱ｰ繧ゅ＞縺ｪ縺�',
+        'TRIA\u0000TRIA\u0000[NULL]',
+        '00110001 00110111 00110001 00110111',
+        '2F 61 66 74 65 72 6C 69 67 68 74',
+        'QkVISU5EIFRIRSBXSU5ET1c=',
+        'GUR JVAQBJ VF FGVYY BCRA',
+        '▒▒▓▓▒░ NO CARRIER ░▒▓▓▒▒',
+        'C:\\MYSPACE\\ROOM\\ROOM\\ROOM\\ROOM',
+        'record[0017] -> shadow -> page -> reader -> shadow',
+        '00:18:54 > 00:19:36 > 00:18:54 > TODAY',
+        '????????????????????????????????????'
       ];
-      terminal.innerHTML = '';
+      for (let n = 0; n < 36; n++) {
+        const left = broken[n % broken.length];
+        const right = broken[(n * 7 + 3) % broken.length];
+        add(`${String(n + 1).padStart(2, '0')} ${left} :: ${right}`, 'corrupt');
+      }
+
+      [
+        'memory check: seventeen branches in the ceiling',
+        'memory check: three tablets wrapped in plastic',
+        'memory check: one hundred and twenty in the coat',
+        'memory check: water and bandages',
+        'memory check: the automatic door opened twice',
+        'memory check: the cashier counted two customers',
+        'memory check: camera recorded one',
+        'memory check: record assigned two',
+        'clinical note: a voice may be a symptom',
+        'archive note: a saved file is not a symptom',
+        'clinical note: test what can be observed again',
+        'archive note: this file can be observed again',
+        'author note: I DID NOT WRITE THIS',
+        'author note deleted',
+        'author field remains empty'
+      ].forEach(text => add(text, text.startsWith('archive') ? 'warn' : 'memory'));
+
+      for (let n = 1; n <= 18; n++) {
+        const subject = n < 7 ? 'he' : n < 13 ? 'you' : 'we';
+        add(`${String(n).padStart(2, '0')} ${subject} is still in the room`, n > 12 ? 'loud' : 'warn');
+      }
+
+      [
+        '*Tria stopped typing*',
+        '*keyboard input remains zero*',
+        '*this page continues writing by itself*',
+        '*the cursor moved without a key event*',
+        '*the room record changed from EMPTY to READER*',
+        '*reader record 2407 has no exit time*',
+        '*do not turn around to check the window*',
+        '*there is no light to make that shadow*',
+        'WHY WHY WHY WHY WHY WHY WHY WHY WHY WHY WHY WHY',
+        'your shoelace is untied',
+        'he knows you are not wearing shoes',
+        'autosave complete',
+        'autosave started',
+        'autosave complete',
+        'autosave started',
+        'I AM STILL WRITING'
+      ].forEach((text, index) => add(text, index > 7 ? 'write loud' : 'write'));
+
+      count.textContent = `000 / ${String(lines.length).padStart(3, '0')}`;
       let index = 0;
+      const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const finish = () => {
+        const cursor = document.createElement('span');
+        cursor.className = 'afterlight-cursor';
+        log.appendChild(cursor);
+        screen.classList.add('complete');
+        count.textContent = `${String(lines.length).padStart(3, '0')} / ${String(lines.length).padStart(3, '0')}`;
+      };
+
       const writeNext = () => {
         if (index >= lines.length) {
-          const cursor = document.createElement('span');
-          cursor.className = 'room-cursor';
-          terminal.appendChild(cursor);
+          finish();
           return;
         }
-        const [text, delay, className] = lines[index++];
+        const entry = lines[index];
         const line = document.createElement('p');
-        line.textContent = text;
-        if (className) line.className = className;
-        terminal.appendChild(line);
-        line.scrollIntoView({block: 'nearest'});
+        line.className = `afterlight-line ${entry.type}`.trim();
+        line.textContent = entry.text;
+        log.appendChild(line);
+        index++;
+        count.textContent = `${String(index).padStart(3, '0')} / ${String(lines.length).padStart(3, '0')}`;
+        log.scrollTop = log.scrollHeight;
+        const delay = reducedMotion ? 0 : Math.max(18, 310 - index * 3);
         setTimeout(writeNext, delay);
       };
-      setTimeout(writeNext, 900);
+
+      setTimeout(writeNext, reducedMotion ? 0 : 700);
     })();
   </script>
 </body>
