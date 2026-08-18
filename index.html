@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="A's forgotten homepage - best viewed at 800x600">
+  <title>WELCOME 2 MY HOMEPAGE // ÃƒÂ¤Ã‚Â¸ÃƒÂ§Ã‚Â½ÃƒÂ‘</title>
+  <style>
+    /* source clue: the page is not as old as its colors say. */
+    html, body { margin: 0; padding: 0; background: #05000b; color: #d9ff00; font-family: "Courier New", monospace; font-size: 12px; }
+    body { overflow-x: auto; cursor: crosshair; }
+    body:before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 20; background: repeating-linear-gradient(0deg, rgba(0,0,0,.15) 0, rgba(0,0,0,.15) 1px, transparent 1px, transparent 4px); opacity: .55; }
+    body.shake { animation: shake .12s linear 2; }
+    @keyframes shake { 25% { transform: translate(1px,0); } 50% { transform: translate(-1px,1px); } 75% { transform: translate(0,-1px); } }
+    @keyframes blink { 50% { visibility: hidden; } }
+    @keyframes flicker { 0%, 100% { opacity: 1; } 47% { opacity: .45; } 48% { opacity: .9; } 49% { opacity: .25; } }
+    @keyframes drift { to { transform: translateY(-22px); opacity: 0; } }
+    a { color: #00ffff; text-decoration: underline; }
+    a:visited { color: #ff55ff; }
+    a:hover { color: #ffff00; background: #0000aa; }
+    #wrap { width: 760px; margin: 8px auto 40px; background: #16002b; border: 5px ridge #aaaaff; box-shadow: 0 0 0 2px #00ffff, 0 0 18px #4400ff; }
+    #top { height: 25px; background: #000080; color: #ffff00; border-bottom: 3px groove #66ffff; line-height: 25px; text-align: center; font-weight: bold; }
+    #top span { animation: blink 1.1s steps(2, start) infinite; }
+    table { border-collapse: separate; border-spacing: 3px; width: 100%; }
+    td { vertical-align: top; }
+    .nav { width: 145px; background: #28005c; border: 4px ridge #8888ff; padding: 5px; }
+    .nav h3 { margin: 2px 0 7px; color: #ff60ff; text-align: center; font-size: 15px; text-decoration: blink; }
+    .nav a, .nav button { display: block; width: 137px; box-sizing: border-box; margin: 4px 0; padding: 3px 5px; background: #000080; border: 2px outset #8888ff; color: #ffffff; font-family: inherit; font-size: 12px; text-align: left; cursor: pointer; }
+    .nav a:active, .nav button:active { border-style: inset; }
+    .nav hr { border: 0; border-top: 2px groove #00ffff; }
+    .content { padding: 3px 9px 15px; background: #0d001b; border: 4px inset #777777; }
+    .hero { text-align: center; border: 4px ridge #ff00ff; background: #000044; padding: 5px; }
+    .hero h1 { color: #ffff00; font-family: Impact, "Arial Black", sans-serif; font-size: 28px; margin: 2px; letter-spacing: 2px; text-shadow: 3px 3px #ff00ff; }
+    .hero p { color: #00ff66; margin: 3px; font-weight: bold; }
+    .warning { color: #ff2222; animation: blink .8s steps(2, start) infinite; }
+    .marquee { border: 3px inset #00ffff; background: #000000; color: #ff8800; height: 20px; line-height: 20px; margin: 7px 0; font-weight: bold; }
+    .box { border: 4px groove #9999ff; margin: 7px 0; padding: 6px; background: #171744; }
+    .box h2 { color: #00ffff; font-size: 16px; margin: 0 0 5px; border-bottom: 2px ridge #ff00ff; }
+    .likes { color: #ffffff; columns: 2; line-height: 20px; list-style-type: square; }
+    .likes li::marker { color: #ff00ff; }
+    .counter { color: #000000; background: #66ff00; border: 3px inset #dddddd; padding: 2px 6px; font-size: 19px; font-weight: bold; letter-spacing: 2px; }
+    .tiny { font-size: 10px; color: #bbbbbb; }
+    .ascii { color: #ff66ff; font-size: 10px; line-height: 10px; white-space: pre; overflow: hidden; }
+    .room { display: block; width: 100%; height: 156px; border: 4px ridge #ffff00; background: #111; image-rendering: pixelated; object-fit: cover; }
+    .guestbook input, .guestbook textarea { background: #ffffcc; border: 2px inset #888; font-family: "Courier New", monospace; font-size: 11px; }
+    .guestbook input { width: 130px; } .guestbook textarea { width: 250px; height: 35px; vertical-align: top; }
+    .guestbook button, .midi button { background: #c0c0c0; border: 3px outset #fff; font-family: "Times New Roman", serif; font-weight: bold; cursor: pointer; }
+    .guestbook button:active, .midi button:active { border-style: inset; }
+    .midi { color: #ffff00; border: 3px outset #00ff00; background: #003300; padding: 5px; }
+    #guest-log { color: #00ff00; max-height: 70px; overflow: auto; margin-top: 5px; }
+    #secret { position: fixed; left: -9999px; top: -9999px; color: #111; }
+    #glitches { position: fixed; inset: 0; pointer-events: none; z-index: 30; overflow: hidden; }
+    .particle { position: absolute; color: #00ffff; font-weight: bold; animation: drift 1.2s linear forwards; text-shadow: 0 0 5px #ff00ff; }
+    .footer { text-align: center; border-top: 4px groove #7777ff; padding: 9px 4px; color: #ffff00; background: #000044; }
+    .hidden-page { min-height: 430px; background: #000; color: #eee; border: 0; text-align: center; padding: 80px 20px 20px; box-sizing: border-box; }
+    .hidden-page h1 { font-size: 21px; letter-spacing: 4px; color: #fff; }
+    .hidden-page .time { font-size: 17px; color: #777; }
+    .hex { margin: 35px auto; max-width: 500px; color: #00ff00; font-size: 16px; line-height: 25px; }
+    .error { min-height: 430px; padding: 70px 25px; box-sizing: border-box; background: #111; color: #ddd; font-family: Arial, sans-serif; text-align: left; }
+    .error h1 { font-size: 35px; color: #ff3333; }
+    .timeline { color: #00ff00; background: #000; padding: 18px; font-size: 15px; line-height: 1.8; }
+    .final { min-height: 440px; background: #000; color: #fff; text-align: center; padding-top: 65px; box-sizing: border-box; font-family: Arial, sans-serif; font-size: 18px; letter-spacing: 3px; }
+    .final strong { display: block; font-size: 30px; margin: 16px; }
+    .final .age { color: #ff3333; font-size: 55px; margin-top: 45px; }
+    @media (max-width: 780px) { #wrap { margin: 0; } }
+  </style>
+</head>
+<body>
+  <!-- 4E 4F 54 20 54 48 45 20 48 4F 4D 45 --><!-- 50 41 47 45 -->
+  <!-- 07 / 13 / 37 / 01 / 09 / 17 / 20 / 01 : do not normalize these numbers. -->
+  <!-- The broken letters are several bad UTF-8 -> Windows-1252 conversions, not decoration. -->
+  <div id="wrap">
+    <div id="top"><span>*** WELCOME 2 MY HOMEPAGE *** PLEASE WAIT... ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ ***</span></div>
+    <div id="app"></div>
+  </div>
+  <span id="secret">source says: ROOM / 2007 / A / 23 / 4E 4F 54 20 54 48 45 20 48 4F 4D 45</span>
+  <div id="glitches"></div>
+
+  <script>
+    /* 50 6C 65 61 73 65 20 63 68 65 63 6B 20 74 68 65 20 73 6F 75 72 63 65 */
+    const app = document.getElementById('app');
+    const root = document.documentElement;
+    const state = { visits: Number(localStorage.getItem('a_visits') || 1337), glitchSeen: false };
+    const bad = ['ÃƒÂ¤Ã‚Â¸ÃƒÂ§Ã‚Â½ÃƒÂ‘', 'ÃƒÂ¥Ã‚Â¤ÃƒÂœÃƒÂ¦Ã‚Â˜ÃƒÂŸ', '縺薙ｓ縺ｫ縺｡縺ｯ', 'â€žâ˜†Ã‚Â¤', 'ÐšÐ¾Ð¼Ð½Ð°Ñ‚Ð°', '0x09 0x17 0x20 0x01', 'ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦'];
+    const home = `
+      <table cellpadding="0" cellspacing="3"><tr>
+        <td class="nav"><h3>~ MENU ~</h3>
+          <a href="#home">[ HOME ] ÃƒÂ¤Ã‚Â¸ÃƒÂ»Ã‚Â»</a><a href="#about">[ ABOUT ME ]</a><a href="#music">[ MY MUSIC ]</a><a href="#pictures">[ PICTURES ]</a><a href="#links">[ LINKS ]</a><a href="#webring">[ WEBRING ]</a>
+          <hr><a href="#guestbook">[ GUESTBOOK ]</a><a href="#404">[ ??? ]</a>
+          <p class="tiny">Best viewed with<br>Netscape Navigator 4.7<br><br>Resolution:<br>800x600</p>
+        </td><td class="content">
+          <div class="hero"><h1>WELCOME 2 MY HOMEPAGE</h1><p>MY NAME IS N0B0DY</p><p class="warning">*** UNDER CONSTRUCTION ***</p></div>
+          <div class="marquee"><marquee scrollamount="5">ÃƒÂ¤Ã‚Â¸ÃƒÂ§Ã‚Â½ÃƒÂ‘ WELCOME STRANGER &nbsp;&nbsp; // &nbsp;&nbsp; don't look behind the page &nbsp;&nbsp; // &nbsp;&nbsp; ÃƒÂ¥Ã‚Â¤ÃƒÂœÃƒÂ¦Ã‚Â˜ÃƒÂŸ</marquee></div>
+          <div class="box" id="about"><h2>ABOUT ME / ÃƒÂ§Ã‚Â½ÃƒÂ‘ÃƒÂ©Ã‚Â¡ÃƒÂµ</h2><p>Hi! I am A. I made this page on 09/17/2001. I am 17 years old.</p><p>Sometimes I hear the computer turn on at 23:41:07. It is probably nothing.</p><p class="tiny">Last updated: <b>09/17/2001</b> &nbsp; | &nbsp; ÃƒÂ¤Ã‚Â¸ÃƒÂ¦Ã‚Â—Ã‚Â¥: 07 13 37 01 09 17 20 01</p></div>
+          <table><tr><td><div class="box"><h2>I LIKE:</h2><ul class="likes"><li>MUSIC</li><li>COMPUTERS</li><li>NIGHT</li><li>STARS</li><li>JAPANESE TXT: 星</li><li>HEX: 1337</li></ul></div></td><td><div class="midi" id="music"><b>♪ MIDI PLAYER ♪</b><br><span id="midi-status">[ stopped ] dreaming.mid</span><br><button onclick="toggleMidi()">PLAY / STOP</button></div><p class="ascii">     .-"""-.
+    / .===. \\
+    \/ 6 6 \/
+    ( \___/ )
+___ooo__V__ooo___</p></td></tr></table>
+          <div class="box" id="pictures"><h2>MY ROOM!!!</h2><img class="room" id="room-image" alt="room_final_FINAL2.gif // 09 17 2001 // inspect the end" onclick="roomClue()"><p class="tiny">room_final_FINAL2.gif &nbsp; [56k warning] &nbsp; <a href="#" onclick="downloadRoom(event)">download</a> &nbsp; ÃƒÂ©Ã‚Â§ÃƒÂ¤Ã‚Â¦Ã‚Â¸</p></div>
+          <div class="box" id="guestbook"><h2>SIGN MY GUESTBOOK!!!</h2><div class="guestbook"><input id="guest-name" placeholder="your name"><textarea id="guest-msg" placeholder="say hi..."></textarea> <button onclick="signGuestbook()">SIGN IT!</button><div id="guest-log">A: welcome to my page.<br>n0b0dy: ÃƒÂ§Ã‚Â½ÃƒÂ‘ÃƒÂ©Ã‚Â¡ÃƒÂµ</div></div></div>
+          <div class="box" id="links"><h2>COOL LINKS / WEBRING</h2><a href="#2001">[ the old archive ]</a> &nbsp; <a href="#2007">[ broken mirror ]</a> &nbsp; <a href="#2011">[ new home? ]</a> &nbsp; <a href="#2026">[ ??? ]</a><br><br><span class="tiny">You are visitor number:</span> <span class="counter" id="counter">0001337</span><span id="counter-note"></span></div>
+        </td></tr></table>
+      <div class="footer">© 2001-2007 &nbsp; © 2001-2011 &nbsp; © 2001-2026<br><span class="tiny">THANK YOU FOR VISITING. LAST UPDATED: 09/17/2001</span></div>`;
+
+    function frame(body) { app.innerHTML = body; }
+    function padded(n) { return String(n).padStart(7, '0'); }
+    function setTitle(text) { let i = 0; clearInterval(window.titleTimer); window.titleTimer = setInterval(() => { document.title = text.slice(i) + ' /// ' + text.slice(0, i); i = (i + 1) % text.length; }, 260); }
+    function renderHome() { frame(home); setTitle('WELCOME 2 MY HOMEPAGE // ÃƒÂ¤Ã‚Â¸ÃƒÂ§Ã‚Â½ÃƒÂ‘'); document.getElementById('counter').textContent = padded(state.visits); makeRoom(); }
+    function makeRoom() {
+      const c = document.createElement('canvas'); c.width = 380; c.height = 156; const x = c.getContext('2d');
+      x.fillStyle='#21134a'; x.fillRect(0,0,380,156); x.fillStyle='#101018'; x.fillRect(0,105,380,51); x.fillStyle='#ffdf71'; x.fillRect(25,25,105,55); x.fillStyle='#5c3822'; x.fillRect(0,80,380,10); x.fillStyle='#222'; x.fillRect(166,58,135,48); x.fillStyle='#00c6c6'; x.fillRect(175,65,117,33); x.fillStyle='#d33'; x.fillRect(310,19,45,60); x.fillStyle='#fff'; x.fillRect(316,26,33,8); x.fillStyle='#f44'; x.fillRect(315,43,31,5); x.fillStyle='#aaa'; x.fillRect(70,116,25,6); x.fillStyle='#f00'; x.fillRect(202,110,26,5); x.fillStyle='#0ff'; x.fillRect(240,114,52,4); x.fillStyle='#fff'; x.font='9px monospace'; x.fillText('A\'S ROOM 2001', 180, 83); document.getElementById('room-image').src = c.toDataURL('image/gif');
+    }
+    function toggleMidi() { const s = document.getElementById('midi-status'); s.textContent = s.textContent.includes('stopped') ? '[ playing... ] dreaming.mid ♪♪' : '[ stopped ] dreaming.mid'; }
+    function signGuestbook() { const n = document.getElementById('guest-name').value || 'anonymous'; const m = document.getElementById('guest-msg').value || bad[Math.floor(Math.random()*bad.length)]; document.getElementById('guest-log').innerHTML += '<br>' + n.replace(/[<>]/g,'') + ': ' + m.replace(/[<>]/g,''); }
+    function roomClue() { document.getElementById('counter-note').textContent = '  [the monitor is still on]'; document.body.classList.add('shake'); setTimeout(()=>document.body.classList.remove('shake'), 250); }
+    function crc32(bytes) { let c=0xffffffff; for (const b of bytes) { c ^= b; for (let k=0;k<8;k++) c=(c>>>1)^((c&1)?0xedb88320:0); } return (c^0xffffffff)>>>0; }
+    function downloadRoom(e) { e.preventDefault(); const enc=new TextEncoder(), files=[['readme.txt','IF YOU FOUND THIS,\nYOU ARE ALREADY TOO LATE.\n\nDON\'T OPEN 2007.TXT'],['2007.txt','2007\nI thought deleting the page would fix it.\nIt didn\'t.\n\nEvery time I delete something,\nsomething else appears.\n\nYesterday I found a page dated\n09/17/2001\nthat I never created.\n\n— A']]; const gif=atob('R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='),gifBytes=Uint8Array.from(gif,c=>c.charCodeAt(0)); let zip=[],offset=gifBytes.length; for(const [name,text] of files){const n=enc.encode(name),d=enc.encode(text),h=new Uint8Array(30+n.length),v=new DataView(h.buffer); v.setUint32(0,0x04034b50,true);v.setUint16(8,0,true);v.setUint32(14,crc32(d),true);v.setUint32(18,d.length,true);v.setUint32(22,d.length,true);v.setUint16(26,n.length,true);h.set(n,30);zip.push(h,d);offset+=h.length+d.length;} const central=[]; let localOffset=gifBytes.length; for(const [name,text] of files){const n=enc.encode(name),d=enc.encode(text),h=new Uint8Array(46+n.length),v=new DataView(h.buffer);v.setUint32(0,0x02014b50,true);v.setUint16(8,20,true);v.setUint32(16,crc32(d),true);v.setUint32(20,d.length,true);v.setUint32(24,d.length,true);v.setUint16(28,n.length,true);v.setUint32(42,localOffset,true);h.set(n,46);central.push(h);localOffset+=30+n.length+d.length;} const cd=central.reduce((a,b)=>a+b.length,0),end=new Uint8Array(22),ev=new DataView(end.buffer);ev.setUint32(0,0x06054b50,true);ev.setUint16(8,files.length,true);ev.setUint16(10,files.length,true);ev.setUint32(12,cd,true);ev.setUint32(16,offset,true); const blob=new Blob([gifBytes,...zip,...central,end],{type:'image/gif'}); const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='room_final_FINAL2.gif';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000); roomClue(); }
+    function errorPage() { frame('<div class="error"><h1>ERROR 404</h1><p>THIS PAGE DOES NOT EXIST.</p><p>...</p><p>unless you know <i>when</i>.</p><p><a href="#home">go back</a></p></div>'); setTitle('ERROR 404 // WHEN'); }
+    function secretPage() { frame('<div class="hidden-page"><h1>09/17/2001</h1><div class="time">23:41:07</div><p>ARE YOU STILL THERE?</p><div class="hex">43 48 45 43 4B 20 54 48 45 20<br>53 4F 55 52 43 45</div><p class="tiny">[ the page is listening ]</p><a href="#home">return</a></div>'); setTitle('09/17/2001 // 23:41:07'); }
+    function timeline(year) { const data = { '2001':['A is 17.','I like music. The page is new.'], '2007':['A is 23.','I thought deleting the page would fix it. It didn\'t.'], '2011':['A is 23.','Why is the old counter still moving?'], '2026':['A is 23.','HELLO. I KNOW YOU ARE READING THIS. I HAVE BEEN WAITING FOR YOU.'] }[year]; frame('<div class="timeline"><h1>ARCHIVE // '+year+'</h1><p>'+data[0]+'</p><p>'+data[1]+'</p><p>09/17/2001<br>23:41:07</p>'+(year==='2026'?'<p>YOU THINK THIS WEBSITE<br>WAS LEFT BEHIND.<br><br>IT WASN\'T.<br><br>IT WAS BUILT FOR YOU.</p><p id="visitors">VISITOR #1337</p>':'')+'<p><a href="#home">[ return to homepage ]</a></p></div>'); setTitle(year+' // ARCHIVE'); if(year==='2026') { let v=1337; const t=setInterval(()=>{ const el=document.getElementById('visitors'); if(!el){clearInterval(t);return;} el.textContent='VISITOR #'+(++v); if(v>1339) clearInterval(t); }, 1800); } }
+    function finale() { frame('<div class="final"><div id="years">2001<br>2007<br>2011<br>2026</div><div class="age" id="age"></div><div id="thanks"></div></div>'); setTitle('...'); setTimeout(()=>{ document.getElementById('years').style.display='none'; let a=17; const timer=setInterval(()=>{ document.getElementById('age').textContent=a++; if(a>21){clearInterval(timer); setTimeout(()=>{document.getElementById('thanks').innerHTML='VISITOR COUNTER: 0001340<br><br>THANK YOU FOR VISITING.<br><br>LAST UPDATED: 09/17/2001';},1000); } }, 1300); }, 2500); }
+    function route() { const path=location.pathname.replace(/^\/+|\/+$/g,''); const h=location.hash.slice(1)||path; if(h==='404') errorPage(); else if(h==='09172001') secretPage(); else if(['2001','2007','2011','2026'].includes(h)) timeline(h); else if(h==='final') finale(); else renderHome(); }
+    document.addEventListener('mousemove', e => { if(Math.random()>.86){ const p=document.createElement('span'); p.className='particle'; p.textContent=bad[Math.floor(Math.random()*bad.length)]; p.style.left=e.clientX+'px'; p.style.top=e.clientY+'px'; document.getElementById('glitches').appendChild(p); setTimeout(()=>p.remove(),1200); } });
+    window.addEventListener('hashchange', route);
+    window.addEventListener('storage', () => { state.visits++; });
+    if(!sessionStorage.getItem('a_seen')) { sessionStorage.setItem('a_seen','1'); state.visits = 1337; }
+    localStorage.setItem('a_visits', state.visits);
+    setInterval(() => { if(Math.random()>.78){ document.body.classList.add('shake'); setTimeout(()=>document.body.classList.remove('shake'),250); } }, 7000);
+    route();
+  </script>
+</body>
+</html>
