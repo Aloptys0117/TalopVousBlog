@@ -214,11 +214,11 @@
         log.scrollTop = log.scrollHeight;
         let delay;
         if(reducedMotion)delay=0;
-        else if(index<=73)delay=Math.max(60,220-index*2);
+        else if(index<=73)delay=150;
         else if(index<=773)delay=2;
-        else if(index<=809)delay=6;
-        else if(index<=984)delay=12+Math.floor((index-809)*.55);
-        else delay=130;
+        else if(index<=809)delay=9;
+        else if(index<=984)delay=40+Math.floor((index-809)*.6);
+        else delay=240;
         setTimeout(writeNext, delay);
       };
 
