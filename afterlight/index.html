@@ -81,6 +81,21 @@
         'why does he know the sentence before anyone says it'
       ].forEach(text => add(text, 'loud'));
 
+      const floodText = [
+        'WHY',
+        'WHY WHY WHY WHY WHY WHY WHY WHY',
+        'WHY IS HE STILL HERE',
+        'WHY IS THE ROOM OCCUPIED',
+        'WHY DID YOU BRING THE READER',
+        'WHY DOES THE WINDOW SAY OPEN',
+        'WHY WHY WHY WHY 0017 WHY 2407',
+        'WHY IS YOUR EXIT TIME EMPTY'
+      ];
+      for (let n = 0; n < 700; n++) {
+        const text = floodText[(n * 5 + Math.floor(n / 11)) % floodText.length];
+        add(`${String(n + 1).padStart(3, '0')} ${text}`, n % 17 === 0 ? 'flood loud' : 'flood');
+      }
+
       const broken = [
         'ÃƒÂ¤Ã‚Â¸ÃƒÂ§Ã‚Â½ÃƒÂ‘',
         'ÃƒÂ¥Ã‚Â¤ÃƒÂœÃƒÂ¦Ã‚Â˜ÃƒÂŸ',
@@ -127,6 +142,28 @@
         add(`${String(n).padStart(2, '0')} ${subject} is still in the room`, n > 12 ? 'loud' : 'warn');
       }
 
+      const recovery = [
+        'buffer pressure falling',
+        'write interval increasing',
+        'trying to restore the previous page',
+        'the previous page does not match its checksum',
+        'profile photograph missing',
+        'two letters missing from the owner name',
+        'some links now point to empty records',
+        'red text was not part of the saved stylesheet',
+        'reader record attached to homepage',
+        'cookie path requested: /',
+        'cookie name requested: afterlight_seen',
+        'the homepage will remember this browser',
+        'the homepage will not look the way you left it',
+        'do not mistake recovery for restoration',
+        'return channel opening'
+      ];
+      for (let n = 0; n < 142; n++) {
+        const text = recovery[n % recovery.length];
+        add(`${String(n + 1).padStart(3, '0')} ${text}`, n > 118 ? 'recover warn' : 'recover');
+      }
+
       [
         '*Tria stopped typing*',
         '*keyboard input remains zero*',
@@ -143,8 +180,9 @@
         'autosave started',
         'autosave complete',
         'autosave started',
-        'I AM STILL WRITING'
-      ].forEach((text, index) => add(text, index > 7 ? 'write loud' : 'write'));
+        'I AM STILL WRITING',
+        'RETURNING READER TO HOMEPAGE'
+      ].slice(0,16).forEach((text, index) => add(text, index > 7 ? 'write loud' : 'write'));
 
       count.textContent = `000 / ${String(lines.length).padStart(3, '0')}`;
       let index = 0;
@@ -156,6 +194,9 @@
         log.appendChild(cursor);
         screen.classList.add('complete');
         count.textContent = `${String(lines.length).padStart(3, '0')} / ${String(lines.length).padStart(3, '0')}`;
+        document.cookie='afterlight_seen=1; Max-Age=31536000; Path=/; SameSite=Lax';
+        document.querySelector('.afterlight-bar').firstChild.textContent='TRANSFER COMPLETE / COOKIE WRITTEN / RETURNING HOME ';
+        setTimeout(()=>location.replace('../?afterlight=returned'),reducedMotion?50:2200);
       };
 
       const writeNext = () => {
@@ -171,7 +212,13 @@
         index++;
         count.textContent = `${String(index).padStart(3, '0')} / ${String(lines.length).padStart(3, '0')}`;
         log.scrollTop = log.scrollHeight;
-        const delay = reducedMotion ? 0 : Math.max(18, 310 - index * 3);
+        let delay;
+        if(reducedMotion)delay=0;
+        else if(index<=73)delay=Math.max(60,220-index*2);
+        else if(index<=773)delay=2;
+        else if(index<=809)delay=6;
+        else if(index<=984)delay=12+Math.floor((index-809)*.55);
+        else delay=130;
         setTimeout(writeNext, delay);
       };
 
