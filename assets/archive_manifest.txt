@@ -1,7 +1,7 @@
-2001 / 17 / public identity created
-2004 / 20 / guestbook replicated
-2007 / 23 / author process missing
-2011 / 23 / snapshots continue
-2016 / 23 / first page replaced
-2021 / 23 / visitor catalog active
-2026 / 23 / waiting state active
+0001 / PAGE / 2002-06-28 00:19:36 / ACTIVE
+0017 / SHADOW / 2002-06-28 00:18:54 / ACTIVE
+1337 / RETURN / date unavailable / ACTIVE
+2406 / READER / previous session / CLOSED
+2407 / READER / current session / ACTIVE
+
+CONTENT TYPE DOES NOT PROVE IDENTITY.

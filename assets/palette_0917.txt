@@ -1,9 +1,8 @@
-RED 09
-GREEN 17
-BLUE 23
-ALPHA 41
-NOISE 07
+GREEN LINE 01
+POWER PRESS 03
+CEILING BRANCH 17
+JUNE 28
+MINUTE 19
+SECOND 36
 
-Class A: recoverable
-Class B: damaged after recovery
-Class C: not from any encoding table
+The values describe objects and times, not colors.

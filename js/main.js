@@ -1,12 +1,19 @@
 const bad=['ÃƒÂ¤Ã‚Â¸ÃƒÂ§Ã‚Â½ÃƒÂ‘','ÃƒÂ¥Ã‚Â¤ÃƒÂœÃƒÂ¦Ã‚Â˜ÃƒÂŸ','縺薙ｓ縺ｫ縺｡縺ｯ','â€žâ˜†Ã‚Â¤'];
 const game={id:Number(localStorage.getItem('visitor_id')||2407),progress:Number(localStorage.getItem('progress')||0),clues:JSON.parse(localStorage.getItem('discovered_clues')||'[]')};
-if(game.id<2400){game.id=2407;localStorage.setItem('visitor_id',game.id)}
+if(game.id<2407){game.id=2407;localStorage.setItem('visitor_id',game.id)}
 function saveGame(){localStorage.setItem('visitor_id',game.id);localStorage.setItem('progress',game.progress);localStorage.setItem('discovered_clues',JSON.stringify(game.clues))}
 function solve(chapter,clue){game.progress=Math.max(game.progress,chapter);if(!game.clues.includes(clue))game.clues.push(clue);saveGame()}
 function padded(n){return String(n).padStart(7,'0')}
-function toggleMidi(){const s=document.getElementById('midi-status');if(s)s.textContent=s.textContent.includes('stopped')?'[ playing... ] rain_on_glass.mid ♪':'[ stopped ] rain_on_glass.mid'}
+function toggleMidi(){const s=document.getElementById('midi-status');if(s)s.textContent=s.textContent.includes('stopped')?'[ playing... ] untitled.mid':'[ stopped ] untitled.mid'}
 function signGuestbook(){const n=(document.getElementById('guest-name').value||'anonymous').replace(/[<>]/g,'');const m=(document.getElementById('guest-msg').value||bad[Math.floor(Math.random()*bad.length)]).replace(/[<>]/g,'');document.getElementById('guest-log').innerHTML+='<br>'+n+': '+m;solve(1,'guestbook')}
-function initHomepage(){const counter=document.getElementById('counter');if(!counter)return;counter.textContent=padded(game.id);const note=document.getElementById('counter-note');if(game.progress>=7)document.getElementById('guest-log').innerHTML+='<br><i>Tria: do not write that down.</i>';if(game.progress>=10)note.textContent=' the window is open.';if(new URLSearchParams(location.search).get('debug')==='1'){const d=document.createElement('pre');d.className='tiny';d.textContent='ARG_INTERNAL\nchapter='+game.progress+'\nvisitor='+game.id+'\nclues='+game.clues.join(',');document.querySelector('.footer').appendChild(d)}
-  const flicker=document.getElementById('flicker-clue');if(flicker){flicker.style.cssText='font:8px Courier New,monospace;color:#aaa;margin-left:8px';const show=()=>{flicker.hidden=false;setTimeout(()=>flicker.hidden=true,680)};setTimeout(show,4200);setInterval(()=>{if(Math.random()>.62)show()},17000)}
+function initHomepage(){
+  const counter=document.getElementById('counter');if(!counter)return;
+  counter.textContent=padded(game.id);
+  const note=document.getElementById('counter-note');
+  if(game.progress>=7)document.getElementById('guest-log').innerHTML+='<br><i>Tria: I did not write this.</i>';
+  if(game.progress>=10)note.textContent='the window is still open';
+  if(new URLSearchParams(location.search).get('debug')==='1'){const d=document.createElement('pre');d.className='tiny';d.textContent='ARG_INTERNAL\nchapter='+game.progress+'\nvisitor='+game.id+'\nclues='+game.clues.join(',');document.querySelector('.footer').appendChild(d)}
+  const flicker=document.getElementById('flicker-clue');
+  if(flicker){const show=()=>{flicker.hidden=false;setTimeout(()=>flicker.hidden=true,680)};setTimeout(show,4200);setInterval(()=>{if(Math.random()>.62)show()},17000)}
 }
-document.addEventListener('mousemove',e=>{if(Math.random()>.92){const p=document.createElement('span');p.className='particle';p.textContent=bad[Math.floor(Math.random()*bad.length)];p.style.left=e.clientX+'px';p.style.top=e.clientY+'px';document.getElementById('glitches')?.appendChild(p);setTimeout(()=>p.remove(),1100)}});
+document.addEventListener('mousemove',e=>{if(Math.random()>.96){const p=document.createElement('span');p.className='particle';p.textContent=bad[Math.floor(Math.random()*bad.length)];p.style.left=e.clientX+'px';p.style.top=e.clientY+'px';document.getElementById('glitches')?.appendChild(p);setTimeout(()=>p.remove(),900)}});
