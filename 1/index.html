@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>未来职业AI替代概率预测器</title>
+<meta name="description" content="纯前端小工具：选择职业，预测未来 10 年 AI 可接手的工作任务比例，并给出应对建议与 13 个职业的横向对比。">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg1: #0b1220;
+    --bg2: #16233a;
+    --card: rgba(255, 255, 255, 0.06);
+    --line: rgba(255, 255, 255, 0.12);
+    --text: #e8eefc;
+    --muted: #93a4c0;
+    --accent: #38bdf8;
+    --low: #22c55e;
+    --mid: #f59e0b;
+    --high: #ef4444;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    padding: 24px 16px;
+    background:
+      radial-gradient(900px 500px at 15% -10%, rgba(56, 189, 248, 0.18), transparent 60%),
+      radial-gradient(800px 500px at 100% 110%, rgba(168, 85, 247, 0.16), transparent 55%),
+      linear-gradient(160deg, var(--bg1), var(--bg2));
+    color: var(--text);
+    font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Noto Sans SC", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 620px;
+    flex: 1 1 480px;
+    min-width: 0;
+    margin: 0;
+    padding: 32px 30px 26px;
+    border-radius: 22px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  }
+
+  h1 {
+    font-size: 24px;
+    letter-spacing: 0.5px;
+    line-height: 1.35;
+    background: linear-gradient(90deg, #ffffff, #7dd3fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .sub {
+    margin-top: 10px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .form {
+    margin-top: 26px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  label {
+    display: block;
+    width: 100%;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: -4px;
+  }
+
+  select {
+    flex: 1 1 220px;
+    padding: 13px 14px;
+    font-size: 15px;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2393a4c0' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+    transition: border-color 0.2s, background-color 0.2s;
+  }
+
+  select:focus { border-color: var(--accent); background-color: rgba(56, 189, 248, 0.08); }
+  select option { background: #16233a; color: var(--text); }
+
+  button {
+    flex: 0 0 auto;
+    padding: 13px 30px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #04121f;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    background: linear-gradient(135deg, #7dd3fc, #38bdf8);
+    box-shadow: 0 8px 22px rgba(56, 189, 248, 0.28);
+    transition: transform 0.15s, box-shadow 0.2s, filter 0.2s;
+  }
+
+  button:hover { filter: brightness(1.08); box-shadow: 0 10px 28px rgba(56, 189, 248, 0.4); }
+  button:active { transform: translateY(1px) scale(0.99); }
+
+  .warn {
+    display: none;
+    margin-top: 12px;
+    font-size: 13px;
+    color: #fca5a5;
+  }
+  .warn.show { display: block; }
+
+  .result { margin-top: 26px; }
+
+  .result-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .job-name { font-size: 17px; font-weight: 600; }
+
+  .tag {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    line-height: 1.5;
+  }
+
+  .bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .bar {
+    flex: 1;
+    height: 18px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35);
+  }
+
+  .fill {
+    width: 0%;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--accent);
+    transition: width 1s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s;
+  }
+
+  .percent {
+    min-width: 62px;
+    text-align: right;
+    font-size: 22px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hint {
+    margin-top: 10px;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .advice {
+    margin-top: 20px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: rgba(56, 189, 248, 0.07);
+    border: 1px solid rgba(56, 189, 248, 0.22);
+    border-left: 3px solid var(--accent);
+  }
+
+  .advice h2 {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .advice p {
+    font-size: 14.5px;
+    line-height: 1.85;
+    color: #dbe6f7;
+  }
+
+  .note {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--line);
+    font-size: 12px;
+    line-height: 1.8;
+    color: #6f819e;
+  }
+
+  /* ---------- 左右两栏 ---------- */
+  .stage {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 24px;
+    width: 100%;
+    max-width: 1280px;
+    margin: auto;
+  }
+
+  /* 两个板块内部用同一套标题样式 */
+  .panel h2 {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #dbe6f7;
+  }
+
+  .panel[hidden] { display: none; }
+
+  /* 图表板块与预测器在同一行时保持完全相同的宽高 */
+  .panel:not([hidden]) {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 窄屏：两栏改成上下堆叠，动画会自动换成纵向位移 */
+  @media (max-width: 1140px) {
+    .stage {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+    .card { flex: 0 1 auto; }
+  }
+
+  .chart-sub {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .chart-canvas {
+    margin-top: 14px;
+    flex: 1 1 auto;
+    min-height: 300px;
+    position: relative;
+  }
+
+  .chart-canvas svg {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .chart-canvas .pt {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .chart-canvas .pt.show { opacity: 1; }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 16px;
+    font-size: 11.5px;
+    color: #6f819e;
+  }
+
+  .legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .legend i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .fade-in { animation: fadeUp 0.45s ease both; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 480px) {
+    .card { padding: 24px 20px 20px; border-radius: 18px; }
+    h1 { font-size: 20px; }
+    button { flex: 1 1 100%; }
+    .percent { font-size: 19px; min-width: 54px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+<main class="card predictor" id="predictor">
+  <h1>未来职业 AI 替代概率预测器</h1>
+  <p class="sub">选择一个职业，预测未来 10 年内 AI 能接手它的多少工作。</p>
+
+  <div class="form">
+    <label for="job">选择职业</label>
+    <select id="job">
+      <option value="">— 请选择一个职业 —</option>
+      <option value="teller">银行柜员</option>
+      <option value="support">电话客服</option>
+      <option value="translate">基础翻译</option>
+      <option value="factory">流水线工人</option>
+      <option value="clerk">基础会计</option>
+      <option value="junior">初级程序员</option>
+      <option value="creative">创意策划</option>
+      <option value="lawyer">律师</option>
+      <option value="nurse">护士</option>
+      <option value="electric">电工</option>
+      <option value="counselor">心理咨询师</option>
+      <option value="surgeon">外科医生</option>
+      <option value="teacher">小学教师</option>
+    </select>
+    <button id="predictBtn" type="button">预 测</button>
+  </div>
+
+  <p class="warn" id="warn">请先在下拉菜单中选择一个职业，再点击「预测」。</p>
+
+  <section class="result" id="result" aria-live="polite" hidden>
+    <div class="result-head">
+      <span class="job-name" id="jobName"></span>
+      <span class="tag" id="levelTag"></span>
+    </div>
+
+    <div class="bar-wrap">
+      <div class="bar"><div class="fill" id="fill"></div></div>
+      <div class="percent"><span id="num">0</span>%</div>
+    </div>
+
+    <p class="hint" id="hint"></p>
+
+    <div class="advice">
+      <h2>应对建议</h2>
+      <p id="advice"></p>
+    </div>
+
+    <p class="note">
+      说明：这里的百分比指「该职业中可被 AI 接手的<strong>任务比例</strong>」，而不是职业消失的概率。
+      大多数职业不会整体消失，而是工作内容被重新分配——越靠近判断、责任与真实关系，越难被替代。
+    </p>
+  </section>
+</main>
+
+<aside class="card panel" id="chartPanel" aria-labelledby="chartHeading" hidden>
+  <h2 id="chartHeading">全部职业：AI 替代概率对比</h2>
+  <p class="chart-sub">与左侧下拉框完全一致的 13 个职业，按替代概率从高到低排列。★ 标出的是你本次预测的职业。</p>
+  <div class="chart-canvas" id="chartCanvas"></div>
+  <div class="legend">
+    <span><i style="background:#ef4444"></i>高风险 ≥ 60%</span>
+    <span><i style="background:#f59e0b"></i>中等 30–59%</span>
+    <span><i style="background:#22c55e"></i>低风险 &lt; 30%</span>
+  </div>
+</aside>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // 唯一数据源：下拉框选项、预测结果、折线图都从这份数据生成
+  var DATA = {
+    teller: {
+      name: "银行柜员",
+      pct: 86,
+      hint: "存取款、转账、开户等标准化业务大量转向手机银行与自助设备，柜台只保留复杂业务。",
+      advice: "从「办业务」转向「解难题」：理财咨询、风险识别、老年客户与小微企业的服务。会用数字工具、能建立长期信任的人，会从柜员变成客户顾问。"
+    },
+    support: {
+      name: "电话客服",
+      pct: 84,
+      hint: "标准问答、查单改单已被智能语音和自助流程接管，人工接线量明显下降。",
+      advice: "往「难处理的那部分」走：投诉、挽留、谈判、合规敏感场景；也可以转向对话流程设计、知识库维护、AI 回复质检——这些新岗位正在增加。"
+    },
+    clerk: {
+      name: "基础会计",
+      pct: 72,
+      hint: "记账、对账、开票、报表初稿高度规则化，已被财务软件和 AI 大幅接管。",
+      advice: "上移到税务筹划、成本分析、内控与合规判断。机器能给建议，但签字担责的仍然是人——这就是你不可替代的位置。"
+    },
+    junior: {
+      name: "初级程序员",
+      pct: 58,
+      hint: "样板代码、写测试、查文档、简单改 bug 正被 AI 编程助手大量接手。",
+      advice: "别只做「把需求翻译成代码」，要往系统设计、需求拆解、性能与安全，以及「验收 AI 产出」的方向走。会读代码、能判断对错，比会敲代码更值钱。"
+    },
+    lawyer: {
+      name: "律师",
+      pct: 27,
+      hint: "合同审阅、案例检索、文书初稿被大幅加速，但出庭、谈判与担责仍必须由人完成。",
+      advice: "深耕专业领域和人际博弈：庭审策略、谈判、客户信任、伦理判断。把检索和初稿交给 AI，把判断和立场留给自己。"
+    },
+    nurse: {
+      name: "护士",
+      pct: 19,
+      hint: "生命体征记录、护理文书、部分监测可以自动化，但床边照护与突发处置无法替代。",
+      advice: "强化临床观察、应急处置和沟通能力。机器能读数据，但「发现这个病人不对劲」往往靠经验与在场——那正是护理的核心价值。"
+    },
+    electric: {
+      name: "电工",
+      pct: 13,
+      hint: "现场勘测、布线、排故高度依赖手感与临场判断，作业环境非结构化，机器难以胜任。",
+      advice: "往智能化方向叠加：智能家居、光伏储能、充电桩、工业电气调试。传统电工手艺 + 新系统知识，是目前最稀缺的组合之一。"
+    },
+    surgeon: {
+      name: "外科医生",
+      pct: 9,
+      hint: "手术是高风险、需担责的物理操作，AI 目前更多用于影像判读和术前规划，而不是主刀。",
+      advice: "把 AI 当「第二双眼睛」：影像判读、术前规划、术中导航。核心仍然是判断、手感和对并发症的责任承担。"
+    },
+    translate: {
+      name: "基础翻译",
+      pct: 82,
+      hint: "通用文本、技术文档、电商文案已大量由机器翻译完成，人工集中在审校与文化改写。",
+      advice: "别再只做「翻译」，要做「译后编辑 + 领域专精」。把 AI 当草稿机，你负责判断对错、改写语气、把控文化与合规风险——愿意为准确性负责的人，反而更值钱。"
+    },
+    factory: {
+      name: "流水线工人",
+      pct: 76,
+      hint: "重复、固定、可标准化的动作最容易被机械臂和视觉检测取代，但设备本身仍需要人维护。",
+      advice: "尽快从「操作工」转向「设备运维、产线调试、质量异常处理」。机器越普及，会修机器、能判断故障的人越稀缺——动手能力加上现场经验，是这条路上最硬的护城河。"
+    },
+    counselor: {
+      name: "心理咨询师",
+      pct: 12,
+      hint: "AI 能辅助筛查、做情绪记录和初步疏导，但信任关系、危机干预与责任承担仍必须由人来完成。",
+      advice: "继续深耕真实的关系能力：倾听、共情、危机识别与伦理判断。AI 可以当你的记录员和提醒器，但「被一个人真正理解」这件事，无法外包给算法。"
+    },
+    creative: {
+      name: "创意策划",
+      pct: 35,
+      hint: "AI 很擅长发散和产出初稿，但决定「做什么、为谁做、放弃什么」仍然是人。",
+      advice: "把 AI 当成不知疲倦的头脑风暴伙伴，你的价值上移到「定义问题、做取舍、担责任」。会用 AI 产出 100 个方案不稀奇，能判断哪一个值得做才稀缺。"
+    },
+    teacher: {
+      name: "小学教师",
+      pct: 8,
+      hint: "备课、批改、出题、基础知识讲解会大量交给 AI，但看护、陪伴、品格示范与现场责任无法转移。",
+      advice: "主动把知识传授交给工具，把省下的时间投到情感支持、习惯养成、冲突处理和品格示范上。未来的分化不在「人 vs AI」，而在「会用 AI 的教师 vs 不会用的教师」。"
+    }
+  };
+
+  var jobSelect = document.getElementById("job");
+  var predictBtn = document.getElementById("predictBtn");
+  var warnEl = document.getElementById("warn");
+  var resultEl = document.getElementById("result");
+  var jobNameEl = document.getElementById("jobName");
+  var levelTagEl = document.getElementById("levelTag");
+  var fillEl = document.getElementById("fill");
+  var numEl = document.getElementById("num");
+  var hintEl = document.getElementById("hint");
+  var adviceEl = document.getElementById("advice");
+  var chartCanvas = document.getElementById("chartCanvas");
+  var chartPanel = document.getElementById("chartPanel");
+  var predictorEl = document.getElementById("predictor");
+
+  var currentAnim = null;
+  var barToken = 0;
+  var panelToken = 0;
+
+  function levelOf(pct) {
+    if (pct >= 60) return { text: "高风险", color: "#ef4444" };
+    if (pct >= 30) return { text: "中等风险", color: "#f59e0b" };
+    return { text: "低风险", color: "#22c55e" };
+  }
+
+  // 生成折线图：数据直接来自 DATA，和下拉框选项完全一致
+  function buildChart(userKey) {
+    var rows = Object.keys(DATA).map(function (key) {
+      return {
+        key: key,
+        name: DATA[key].name,
+        pct: DATA[key].pct,
+        mine: key === userKey
+      };
+    });
+
+    // 横轴按风险从高到低排，折线自然从左上走到右下
+    rows.sort(function (a, b) { return b.pct - a.pct; });
+
+    var W = Math.max(320, Math.round(chartCanvas.clientWidth));
+    var H = Math.max(300, Math.round(chartCanvas.clientHeight));
+    var padL = 46, padR = 16, padT = 16, padB = 72;
+    var plotW = W - padL - padR;
+    var plotH = H - padT - padB;
+    var n = rows.length;
+
+    function px(i) { return padL + (n === 1 ? plotW / 2 : (i / (n - 1)) * plotW); }
+    function py(v) { return padT + (1 - v / 100) * plotH; }
+
+    var out = [];
+    out.push('<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none" role="img" aria-labelledby="chartTitle chartDesc">');
+    out.push('<title id="chartTitle">职业 AI 替代概率折线对比</title>');
+    out.push('<desc id="chartDesc">' + rows.map(function (r) {
+      return r.name + " " + r.pct + "%";
+    }).join("，") + '</desc>');
+
+    // 横向网格线 + 纵轴刻度
+    [0, 25, 50, 75, 100].forEach(function (v) {
+      var gy = py(v);
+      out.push('<line x1="' + padL + '" y1="' + gy + '" x2="' + (W - padR) + '" y2="' + gy + '" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>');
+      out.push('<text x="' + (padL - 8) + '" y="' + (gy + 4) + '" text-anchor="end" font-size="11" font-weight="500" fill="#9aacc6">' + v + '%</text>');
+    });
+
+    // 折线
+    var pts = rows.map(function (r, i) {
+      return px(i).toFixed(1) + "," + py(r.pct).toFixed(1);
+    }).join(" ");
+    out.push('<polyline id="chartLine" points="' + pts + '" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>');
+
+    // 数据点 + 数值
+    rows.forEach(function (r, i) {
+      var lv = levelOf(r.pct);
+      var cx = px(i).toFixed(1);
+      var cy = py(r.pct).toFixed(1);
+      var radius = r.mine ? 6.5 : 4.5;
+
+      out.push('<circle class="pt" cx="' + cx + '" cy="' + cy + '" r="' + radius + '" fill="' + lv.color + '"' +
+        (r.mine ? ' stroke="#ffffff" stroke-width="1.5"' : '') + '/>');
+
+      out.push('<text class="pt" x="' + cx + '" y="' + (py(r.pct) - 10).toFixed(1) + '" text-anchor="middle" ' +
+        'font-size="' + (r.mine ? 13 : 11) + '" font-weight="' + (r.mine ? 700 : 500) + '" ' +
+        'fill="' + (r.mine ? "#7dd3fc" : "#b2c1d7") + '">' + r.pct + '%</text>');
+    });
+
+    // 横轴标签加大后采用更陡的角度，减少相邻标签碰撞
+    rows.forEach(function (r, i) {
+      var cx = px(i).toFixed(1);
+      var ly = H - 34;
+      out.push('<text x="' + cx + '" y="' + ly + '" text-anchor="end" font-size="9.5" ' +
+        'transform="rotate(-50 ' + cx + ' ' + ly + ')" fill="' +
+        (r.mine ? "#7dd3fc" : "#b2c1d7") + '"' + (r.mine ? ' font-weight="700"' : ' font-weight="500"') + '>' +
+        (r.mine ? "★ " : "") + r.name + '</text>');
+    });
+
+    out.push('</svg>');
+
+    chartCanvas.innerHTML = out.join("");
+
+    // 折线从左往右"画"出来
+    var line = chartCanvas.querySelector("#chartLine");
+    if (line) {
+      var len = line.getTotalLength();
+      line.style.strokeDasharray = len;
+      line.style.strokeDashoffset = len;
+      requestAnimationFrame(function () {
+        line.style.transition = "stroke-dashoffset 1s ease-out";
+        line.style.strokeDashoffset = 0;
+      });
+    }
+
+    // 数据点依次淡入
+    Array.prototype.forEach.call(chartCanvas.querySelectorAll(".pt"), function (el, i) {
+      window.setTimeout(function () { el.classList.add("show"); }, 80 + i * 25);
+    });
+  }
+
+  /* ---------- 两栏的滑入 / 滑出 ---------- */
+
+  var EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+  var hideTimer = null;
+
+  // 宽屏是左右两栏（从右边滑入），窄屏是上下堆叠（从下方滑入）
+  function stacked() {
+    return window.matchMedia("(max-width: 1140px)").matches;
+  }
+
+  function positionOf(element) {
+    var rect = element.getBoundingClientRect();
+    return { left: rect.left, top: rect.top };
+  }
+
+  // 让预测器从"刚才所在的位置"平滑走到它现在该在的位置（FLIP）
+  function flipPredictor(before) {
+    var after = predictorEl.getBoundingClientRect();
+    var dx = before.left - after.left;
+    var dy = before.top - after.top;
+    if (!dx && !dy) return;
+
+    predictorEl.style.transition = "none";
+    predictorEl.style.transform = "translate(" + dx + "px," + dy + "px)";
+    void predictorEl.offsetWidth;   // 先把"旧位置"渲染一帧
+    predictorEl.style.transition = "transform 0.62s " + EASE;
+    predictorEl.style.transform = "translate(0, 0)";
+  }
+
+  // 动画结束后清掉内联样式，避免残留的 transform 影响后续排版
+  predictorEl.addEventListener("transitionend", function (e) {
+    if (e.target !== predictorEl || e.propertyName !== "transform") return;
+    predictorEl.style.transition = "";
+    predictorEl.style.transform = "";
+  });
+
+  // 点击「预测」：预测器滑到左边，图表板块从右侧滑进它的位置
+  function showChart(userKey, before) {
+    panelToken++;
+    window.clearTimeout(hideTimer);
+    hideTimer = null;
+
+    if (chartPanel.hidden) {
+      // 使用结果区展开前的坐标，避免居中布局先跳一次
+      if (!before) before = positionOf(predictorEl);
+
+      chartPanel.hidden = false;
+      chartPanel.style.transition = "none";
+      chartPanel.style.opacity = "0";
+      chartPanel.style.transform = stacked() ? "translateY(28px)" : "translateX(56px)";
+
+      // 先把图内容建好，让面板高度定型，再测量位移
+      buildChart(userKey);
+      void chartPanel.offsetWidth;
+
+      // 位置变了多少，就先反向偏移多少，再动画回 0 —— 视觉上就是"滑过去"
+      flipPredictor(before);
+
+      chartPanel.style.transition = "transform 0.62s " + EASE + ", opacity 0.5s ease";
+      chartPanel.style.opacity = "1";
+      chartPanel.style.transform = stacked() ? "translateY(0)" : "translateX(0)";
+      return;
+    }
+
+    if (chartPanel.style.opacity === "0") {
+      // 上一次滑出还没走完就又点了预测：直接滑回来
+      chartPanel.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+      chartPanel.style.opacity = "1";
+      chartPanel.style.transform = stacked() ? "translateY(0)" : "translateX(0)";
+    }
+
+    buildChart(userKey);
+  }
+
+  // 换职业 / 选回空：图表滑出去，预测器回到居中
+  function hideChart() {
+    window.clearTimeout(hideTimer);
+    hideTimer = null;
+
+    if (chartPanel.hidden) {
+      chartPanel.style.transition = "";
+      chartPanel.style.opacity = "";
+      chartPanel.style.transform = "";
+      return;
+    }
+
+    var token = ++panelToken;
+
+    chartPanel.style.transition = "transform 0.28s ease, opacity 0.28s ease";
+    chartPanel.style.opacity = "0";
+    chartPanel.style.transform = stacked() ? "translateY(20px)" : "translateX(40px)";
+
+    hideTimer = window.setTimeout(function () {
+      if (token !== panelToken) return;   // 中途又预测了，就别再收
+      hideTimer = null;
+
+      var before = positionOf(predictorEl);
+
+      chartPanel.hidden = true;
+      chartPanel.style.transition = "none";
+      chartPanel.style.opacity = "";
+      chartPanel.style.transform = "";
+      chartCanvas.innerHTML = "";         // 清空，避免旧数据留在 DOM 里
+      void chartPanel.offsetWidth;
+
+      flipPredictor(before);              // 预测器滑回中间
+    }, 280);
+  }
+
+  // 数字从 0 平滑增长到目标值
+  function animateNumber(el, target) {
+    if (currentAnim) cancelAnimationFrame(currentAnim);
+
+    var duration = 900;
+    var start = null;
+
+    function step(now) {
+      if (start === null) start = now;
+      var t = Math.min(1, (now - start) / duration);
+      var eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      el.textContent = Math.round(target * eased);
+      if (t < 1) {
+        currentAnim = requestAnimationFrame(step);
+      } else {
+        el.textContent = target;
+        currentAnim = null;
+      }
+    }
+
+    currentAnim = requestAnimationFrame(step);
+  }
+
+  function predict() {
+    var key = jobSelect.value;
+
+    if (!key || !DATA[key]) {
+      warnEl.classList.add("show");
+      resultEl.hidden = true;
+      return;
+    }
+
+    warnEl.classList.remove("show");
+
+    var item = DATA[key];
+    var level = levelOf(item.pct);
+    var origin = positionOf(predictorEl);
+    jobNameEl.textContent = item.name;
+    levelTagEl.textContent = level.text;
+    levelTagEl.style.color = level.color;
+
+    hintEl.textContent = item.hint;
+    adviceEl.textContent = item.advice;
+
+    resultEl.hidden = false;
+    resultEl.classList.remove("fade-in");
+    void resultEl.offsetWidth; // 强制重排，让动画可以重新触发
+    resultEl.classList.add("fade-in");
+
+    // 预测器内容已就位，再让图表滑入（此时高度已定型，不会跳）
+    showChart(key, origin);
+
+    // 进度条：先归零，再动画到目标值
+    var myToken = ++barToken;
+    fillEl.style.transition = "none";
+    fillEl.style.width = "0%";
+    fillEl.style.background = level.color;
+    void fillEl.offsetWidth;
+
+    requestAnimationFrame(function () {
+      // 若期间又点了预测或换了选项，丢弃这次动画，避免写回旧数据
+      if (myToken !== barToken) return;
+      fillEl.style.transition = "width 1s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s";
+      fillEl.style.width = item.pct + "%";
+    });
+
+    animateNumber(numEl, item.pct);
+  }
+
+  predictBtn.addEventListener("click", predict);
+
+  // 这里刻意不监听 Enter：原生 <select> 的 Enter 用于确认选项，
+  // 会先触发 change 清空结果，再触发 keydown，导致"按了回车却没预测"。
+  // 预测只由按钮触发，行为明确、不会打架。
+
+  // 换职业但没点「预测」→ 结果收起，图表滑出，必须重新预测
+  jobSelect.addEventListener("change", function () {
+    warnEl.classList.remove("show");
+    barToken++;
+    if (currentAnim) {
+      cancelAnimationFrame(currentAnim);
+      currentAnim = null;
+    }
+    resultEl.hidden = true;
+    hideChart();
+  });
+})();
+</script>
+</body>
+</html>
