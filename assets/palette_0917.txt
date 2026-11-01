@@ -1,8 +1,0 @@
-GREEN LINE 01
-POWER PRESS 03
-CEILING BRANCH 17
-JUNE 28
-MINUTE 19
-SECOND 36
-
-The values describe objects and times, not colors.

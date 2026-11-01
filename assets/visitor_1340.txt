@@ -1,5 +1,0 @@
-record moved
-
-current reader record: 2407
-content: pages already seen
-exit: --

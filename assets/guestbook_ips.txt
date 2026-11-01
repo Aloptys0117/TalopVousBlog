@@ -1,6 +1,0 @@
-2002  R  80.65.71.69
-2008  R  83.72.65.68.79.87
-2011  R  87.73.78.68.79.87
-2026  R  82.69.65.68.69.82
-
-The dotted values are decimal character codes.
